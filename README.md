@@ -4,7 +4,7 @@ A boilerplate for a Domain Driven Design(ed) Microservice in Python
 
 ## Installation
 
-### Run/Docker
+### In Docker or to run the microservice
 ```
 # Install the necessary dev commands
 $ pip install -r requirements.txt
