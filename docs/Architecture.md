@@ -15,6 +15,11 @@ The architecture of this project is **NOT** based on:
 Please refer to the book's [preface](https://www.cosmicpython.com/book/preface.html) 
 to check how this architecture relates to the ones I mentioned before.
 
+## Architecture Decision Record
+
+This project includes a folder of [Architecture Decision Records](https://adr.github.io/),
+check it out [here](./adr/000-ADR.md).
+
 ## Layers
 ![Architecture Layers][architecture.layers]
 
@@ -64,8 +69,6 @@ The repositories in this layer are implemented using the Adapter pattern.
 Please check the paragraph "Repository Pattern" from the
 [Cosmic Python's 2nd chapter](https://www.cosmicpython.com/book/chapter_02_repository.html)
 
-<!-- > Please check the [Adapters](../adapters/docs/README.md) documentation page for more details. </-->
-
 
 
 # Service Layer
@@ -101,5 +104,3 @@ using language functionalities as much as possible
 
 In this project we provide one entrypoint in the form of a web application server implemented 
 with FastAPI.
-
-<!-- >Please check the [Entrypoints](../entrypoints/docs/README.md) documentation for more details </-->

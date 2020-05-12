@@ -23,5 +23,4 @@ $ pre-commit install
 
 Please refer to the following pages (included in each module):
 * [Architecture](./docs/Architecture.md)
-* 
 * [Testing](tests/README.md)

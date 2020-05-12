@@ -1,4 +1,4 @@
-# Using pre-commit hooks for code-quality tooling
+# Use pre-commit hooks for code-quality tooling
 
 ## Status
 

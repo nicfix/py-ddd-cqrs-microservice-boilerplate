@@ -1,4 +1,4 @@
-# Using an automated code formatter
+# Use an automated code formatter
 
 ## Status
 

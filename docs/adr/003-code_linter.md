@@ -1,4 +1,4 @@
-# Using an automated code linter
+# Use an automated code linter
 
 ## Status
 
