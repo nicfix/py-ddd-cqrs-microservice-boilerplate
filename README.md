@@ -3,6 +3,14 @@ A boilerplate for a Domain Driven Design(ed) Microservice in Python
 
 
 ## Installation
+
+### Run/Docker
+```
+# Install the necessary dev commands
+$ pip install -r requirements.txt
+```
+
+### Development
 ```
 # Install the necessary dev commands
 $ pip install -r requirements-dev.txt
@@ -10,6 +18,8 @@ $ pip install -r requirements-dev.txt
 # Install the pre-commit hooks, check .pre-commit-config.yaml
 $ pre-commit install
 ```
+
+
 
 
 ## Useful links:
