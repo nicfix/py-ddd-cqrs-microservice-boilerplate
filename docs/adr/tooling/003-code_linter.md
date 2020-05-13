@@ -35,3 +35,7 @@ The linter will act as a cold rules checker,
 no more developers and hard feelings in enforcing the rules.
 At the same time, running it at a pre-commit-hook will make sure
 that code that is not compliant will not reach the repo at all.
+
+# References
+* https://adr.github.io/
+* https://github.com/joelparkerhenderson/architecture_decision_record

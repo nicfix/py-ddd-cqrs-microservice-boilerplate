@@ -18,7 +18,7 @@ to check how this architecture relates to the ones I mentioned before.
 ## Architecture Decision Record
 
 This project includes a folder of [Architecture Decision Records](https://adr.github.io/),
-check it out [here](./adr/000-ADR.md).
+check it out [here](adr/ADRs.md).
 
 ## Layers
 ![Architecture Layers][architecture.layers]
