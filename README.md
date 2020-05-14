@@ -19,6 +19,22 @@ $ pip install -r requirements-dev.txt
 $ pre-commit install
 ```
 
+## Tooling
+
+### Run tests
+```bash
+$ pytest --cov-config=.coveragerc --cov=. batch_allocation/
+```
+
+### Format code
+```bash
+$ black ./batch_allocation
+```
+
+### Linter
+```bash
+$ flake8 ./batch_allocation
+```
 
 
 
