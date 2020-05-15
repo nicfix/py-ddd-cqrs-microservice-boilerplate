@@ -1,4 +1,4 @@
-# Pydantic for Data Transfer Objects and Validation
+# Pydantic for Data Transfer Objects, Validation and Serialization
 
 # Status
 
