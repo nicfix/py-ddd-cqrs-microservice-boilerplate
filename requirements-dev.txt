@@ -1,6 +1,7 @@
 -r requirements.txt
 black
 pre-commit
+pip-licenses
 flake8
 flake8-blind-except
 flake8-bugbear
