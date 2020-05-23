@@ -1,11 +1,14 @@
+from uuid import UUID
+
+
 class Pet(object):
     """The Pet Model."""
 
-    id: str
+    id: UUID
     name: str
     age: int
 
-    def __init__(self, id, name, age):
+    def __init__(self, id: UUID, name: str, age: int) -> None:
         """
         Create an instance of Pet.
 
