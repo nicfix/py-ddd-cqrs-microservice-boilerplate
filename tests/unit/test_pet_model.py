@@ -5,7 +5,7 @@ from cookiecutter_project_name.command.domain.models import Pet
 from tests.unit.mocks import MockRepository
 
 
-class PetAggregateTestCase(TestCase):
+class PetModelTestCase(TestCase):
     def setUp(self) -> None:
         self.pet_id = uuid.uuid4()
         self.pet = Pet(id=self.pet_id, name="Pimienta", age=1)
@@ -13,7 +13,6 @@ class PetAggregateTestCase(TestCase):
 
     def test_get_pet(self) -> None:
         pet = self.repo.get_by_id(self.pet_id)
-
         self.assertEqual(self.pet, pet)
 
     def test_add_pet(self) -> None:
