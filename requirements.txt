@@ -1,0 +1,4 @@
+# Please pinpoint your dependencies versions when you start the project
+fastapi
+pydantic
+uvicorn

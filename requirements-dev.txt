@@ -1,4 +1,6 @@
 -r requirements.txt
+# Please pinpoint your dependencies versions when you start the project
+requests
 black
 pre-commit
 pip-licenses
