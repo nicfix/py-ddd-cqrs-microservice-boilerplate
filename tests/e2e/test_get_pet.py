@@ -11,6 +11,7 @@ from fastapi.testclient import TestClient
 
 engine = get_engine()
 pre_populated_pet_id = "7e33cedf-56ee-4706-ac16-944cef1c9930"
+pet_data = {"id": "7e33cedf-56ee-4706-ac16-944cef1c9930", "name": "pimi", "age": 1}
 
 
 class PetTestCase(TestCase):
@@ -22,7 +23,7 @@ class PetTestCase(TestCase):
 
         session = get_session()
 
-        pet = models.Pet(id=pre_populated_pet_id, name="pimi", age=1)
+        pet = models.Pet(**pet_data)
         session.add(pet)
         session.commit()
 
@@ -36,6 +37,5 @@ class PetTestCase(TestCase):
         response = client.get("/pets/7e33cedf-56ee-4706-ac16-944cef1c9930")
         self.assertEqual(200, response.status_code)
         self.assertEqual(
-            response.json(),
-            {"id": "7e33cedf-56ee-4706-ac16-944cef1c9930", "name": "pimi", "age": 1},
+            response.json(), pet_data,
         )

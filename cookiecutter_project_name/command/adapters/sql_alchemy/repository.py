@@ -10,7 +10,7 @@ class SQLAlchemyRepository(Repository):
         self.session = session
 
     def get_by_id(self, id: UUID) -> Pet:
-        return self.session.query(Pet).filter_by(id=id).one()
+        return self.session.query(Pet).filter_by(id=str(id)).one()
 
     def add(self, pet: Pet) -> UUID:
         self.session.add(pet)
