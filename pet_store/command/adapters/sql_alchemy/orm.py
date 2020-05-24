@@ -1,4 +1,4 @@
-from cookiecutter_project_name.command.domain import models
+from pet_store.command.domain import models
 from sqlalchemy import Column, Integer, MetaData, String, Table, orm
 
 metadata = MetaData()

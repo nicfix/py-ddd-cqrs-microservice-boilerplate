@@ -1,25 +1,29 @@
-import os
+import uuid
 from unittest import TestCase
 
-from cookiecutter_project_name.command.adapters.sql_alchemy.orm import (
-    create_tables,
-    drop_tables,
-)
-from cookiecutter_project_name.command.domain import models
-from cookiecutter_project_name.entrypoints.api import app
-from cookiecutter_project_name.infrastructure.db import get_engine, get_session
+from dependency_injector import providers
 from fastapi.testclient import TestClient
 
-engine = get_engine()
-pre_populated_pet_id = "7e33cedf-56ee-4706-ac16-944cef1c9930"
-pet_data = {"id": "7e33cedf-56ee-4706-ac16-944cef1c9930", "name": "pimi", "age": 1}
+from pet_store.command.adapters.sql_alchemy import repository
+from pet_store.command.domain import models
+from pet_store.entrypoints.api import app
+from tests.e2e.utils.testing_db import (
+    get_session,
+    destroy_testing_db,
+    create_testing_db,
+)
+
+repository.session.provided_by(providers.Callable(get_session))
+
+pre_populated_pet_id = uuid.uuid4()
+pet_data = {"id": str(pre_populated_pet_id), "name": "Pimienta", "age": 1}
 
 
 class PetTestCase(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         # This has to happen in Alembic
-        create_tables(engine)
+        create_testing_db()
         session = get_session()
         pet = models.Pet(**pet_data)
         session.add(pet)
@@ -27,13 +31,12 @@ class PetTestCase(TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        drop_tables(engine)
-        os.remove("./sql_app.db")
+        destroy_testing_db()
 
     def test_get_pets(self):
         client = TestClient(app)
 
-        response = client.get(f"/pets")
+        response = client.get("/pets")
         self.assertEqual(200, response.status_code)
         response_data = response.json()
         self.assertEqual(

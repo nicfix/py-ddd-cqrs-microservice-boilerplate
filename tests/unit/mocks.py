@@ -1,8 +1,8 @@
 from typing import Iterable
 from uuid import UUID
 
-from cookiecutter_project_name.command.adapters.repository import Repository
-from cookiecutter_project_name.command.domain.models import Pet
+from pet_store.command.adapters.repository import Repository
+from pet_store.command.domain.models import Pet
 
 
 class MockRepository(Repository):

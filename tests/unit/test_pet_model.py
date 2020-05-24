@@ -1,7 +1,7 @@
 import uuid
 from unittest import TestCase
 
-from cookiecutter_project_name.command.domain.models import Pet
+from pet_store.command.domain.models import Pet
 from dependency_injector import providers
 from tests.unit.mocks import MockRepository
 
