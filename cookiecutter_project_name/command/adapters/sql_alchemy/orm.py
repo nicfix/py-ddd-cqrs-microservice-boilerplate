@@ -13,13 +13,30 @@ pets = Table(
 
 
 def start_mappers():
+    """
+    Initialize the mapping between tables and models.
+
+    :return:
+    """
     pets_mapper = orm.mapper(models.Pet, pets)
     return [pets_mapper]
 
 
 def create_tables(engine):
+    """
+    Create the tables in the database!
+
+    :param engine:
+    :return:
+    """
     metadata.create_all(engine)
 
 
 def drop_tables(engine):
+    """
+    Drop the tables in the database!
+
+    :param engine:
+    :return:
+    """
     metadata.drop_all(engine)

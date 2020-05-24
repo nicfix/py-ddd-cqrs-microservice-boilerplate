@@ -57,11 +57,11 @@ class MyEndpointResourceDTO(BaseModel):
 
 def my_get_endpoint(params:dict) -> dict:
     
-    input_data=MyEndpointInputDTO(**params)
+    input_data =MyEndpointInputDTO(**params)
 
     # ... do whatever ...
 
-    my_resources= inner_function()
+    my_resources = inner_function()
 
     return json.dumps([resource.dict() for resource in my_resources])
 ```

@@ -11,8 +11,18 @@ session_factory = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_engine():
+    """
+    Return the SQLAlchemy db engine.
+
+    :return:
+    """
     return engine
 
 
 def get_session():
+    """
+    Return the SQLAlchemy session.
+
+    :return:
+    """
     return session_factory()
