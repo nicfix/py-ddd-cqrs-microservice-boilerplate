@@ -1,29 +1,32 @@
 from uuid import UUID
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlalchemy import orm
 
 from cookiecutter_project_name.command.adapters.sql_alchemy.repository import (
     SQLAlchemyRepository,
 )
+from cookiecutter_project_name.command.service_layer import services
 from cookiecutter_project_name.infrastructure.bootstrap import bootstrap
 from cookiecutter_project_name.infrastructure.db import get_session
 
 app = FastAPI()
 bootstrap()
 
+session_dependency = Depends(get_session)
+
 
 @app.get("/pets")
-def get_pets(limit: int = 10, offset: int = 0):
+def get_pets(
+    limit: int = 10, offset: int = 0, session: orm.Session = session_dependency
+):
     """
     Get a list of pets.
 
     :return:
     """
-    session = get_session()
-    repo = SQLAlchemyRepository(session)
-    pets = repo.all(limit, offset)
-    total = repo.count()
-    return {"pets": list(pets), "total": total, "limit": limit, "offset": offset}
+    response = services.get_pets(session, limit, offset)
+    return response
 
 
 @app.get("/pets/{pet_id}")

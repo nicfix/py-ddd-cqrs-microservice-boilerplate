@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, orm
 from sqlalchemy.orm import sessionmaker
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
@@ -19,7 +19,7 @@ def get_engine():
     return engine
 
 
-def get_session():
+def get_session() -> orm.Session:
     """
     Return the SQLAlchemy session.
 

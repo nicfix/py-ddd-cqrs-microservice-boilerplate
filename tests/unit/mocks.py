@@ -8,6 +8,12 @@ from cookiecutter_project_name.command.domain.models import Pet
 class MockRepository(Repository):
     """A Mocked Repository implementation, to be used in tests"""
 
+    def count(self) -> int:
+        return len(self.pets)
+
+    def all(self, limit: int = 10, offset: int = 0) -> Iterable[Pet]:
+        return list(self.pets)
+
     def __init__(self, pets: Iterable[Pet] = ()):
         self.pets = set(pets)
 
