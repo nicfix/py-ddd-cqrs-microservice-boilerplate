@@ -1,7 +1,7 @@
 from typing import Iterable
 from uuid import UUID
 
-from cookiecutter_project_name.command.adapters.repository.abstract import Repository
+from cookiecutter_project_name.command.adapters.repository import Repository
 from cookiecutter_project_name.command.domain.models import Pet
 
 
