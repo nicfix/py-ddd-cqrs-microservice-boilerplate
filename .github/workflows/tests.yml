@@ -31,8 +31,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Security Check (Bandit)
-        run: |
-          bandit pet_store
+        uses: jpetrucciani/bandit-check@1.6.2
+        with:
+          path: './pet_store/'
 
       - name: Test with pytest
         run: |
