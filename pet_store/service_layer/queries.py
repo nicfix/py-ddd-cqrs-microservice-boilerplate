@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic.main import BaseModel
 
-from pet_store.command.adapters.sql_alchemy.repository import repository_factory
+from pet_store.service_layer.unit_of_work import uow_provider
 
 
 class PetDTO(BaseModel):
@@ -31,15 +31,18 @@ def get_pets(limit: int = 10, offset: int = 0) -> PetsPageDTO:
     :param offset: int, how many pets you've already downloaded
     :return: PetsPageDTO, the pets page Data Transfer Object
     """
-    repo = repository_factory()
-    pets = list(repo.all(limit, offset))
-    total = repo.count()
-    return PetsPageDTO(
-        pets=[PetDTO(id=pet.id, name=pet.name, age=pet.age) for pet in pets],
-        total=total,
-        limit=limit,
-        offset=offset,
-    )
+    uow = uow_provider()
+    with uow:
+        repo = uow.pets
+        pets = list(repo.all(limit, offset))
+        total = repo.count()
+
+        return PetsPageDTO(
+            pets=[PetDTO(id=pet.id, name=pet.name, age=pet.age) for pet in pets],
+            total=total,
+            limit=limit,
+            offset=offset,
+        )
 
 
 def get_pet(pet_id: UUID) -> PetDTO:
@@ -49,6 +52,8 @@ def get_pet(pet_id: UUID) -> PetDTO:
     :param pet_id: UUID, the unique id of a pet
     :return: PetsDTO, the pet's Data Transfer Object
     """
-    repo = repository_factory()
-    pet = repo.get_by_id(pet_id)
-    return PetDTO(id=pet.id, name=pet.name, age=pet.age)
+    uow = uow_provider()
+    with uow:
+        repo = uow.pets
+        pet = repo.get_by_id(pet_id)
+        return PetDTO(id=pet.id, name=pet.name, age=pet.age)

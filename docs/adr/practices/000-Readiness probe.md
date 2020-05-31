@@ -1,4 +1,4 @@
-# Implement liveness, readyness and startup probes
+# Implement liveliness, readiness and startup probes
 
 ## Status
 

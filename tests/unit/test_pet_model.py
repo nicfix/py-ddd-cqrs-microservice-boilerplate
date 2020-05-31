@@ -1,8 +1,9 @@
 import uuid
 from unittest import TestCase
 
-from pet_store.command.domain.models import Pet
 from dependency_injector import providers
+
+from pet_store.domain.models import Pet
 from tests.unit.mocks import MockRepository
 
 repo_factory = providers.Factory(MockRepository)

@@ -1,4 +1,4 @@
-from pet_store.command.domain import models
+from pet_store.domain import models
 from sqlalchemy import Column, Integer, MetaData, String, Table, orm
 
 metadata = MetaData()

@@ -3,7 +3,8 @@ import os
 from sqlalchemy import create_engine, orm
 from sqlalchemy.orm import sessionmaker
 
-from pet_store.command.adapters.sql_alchemy.orm import create_tables, drop_tables
+from pet_store.adapters.sql_alchemy.orm import create_tables, drop_tables
+from pet_store.service_layer.unit_of_work import AbstractUnitOfWork, UnitOfWork
 
 SQLITE_FILE_PATH = "./testing_sql_app.db"
 
@@ -41,3 +42,7 @@ def create_testing_db():
 def destroy_testing_db():
     drop_tables(engine)
     os.remove(SQLITE_FILE_PATH)
+
+
+def uow_factory() -> AbstractUnitOfWork:
+    return UnitOfWork(get_session)

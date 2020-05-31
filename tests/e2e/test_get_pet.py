@@ -4,16 +4,18 @@ from unittest import TestCase
 from dependency_injector import providers
 from fastapi.testclient import TestClient
 
-from pet_store.command.adapters.sql_alchemy import repository
-from pet_store.command.domain import models
+from pet_store.domain import models
 from pet_store.entrypoints.api import app
-from tests.e2e.utils.testing_db import (
+from pet_store.service_layer.unit_of_work import uow_provider
+from tests.e2e.utils.testing_infrastructure import (
     get_session,
     destroy_testing_db,
     create_testing_db,
+    uow_factory,
 )
 
-repository.session.provided_by(providers.Callable(get_session))
+# Changing the UnitOfWorkFactory using the dependency_injector library
+uow_provider.override(providers.Callable(uow_factory))
 
 pre_populated_pet_id = uuid.uuid4()
 pet_data = {"id": str(pre_populated_pet_id), "name": "Pimienta", "age": 1}
@@ -28,6 +30,7 @@ class PetTestCase(TestCase):
         pet = models.Pet(**pet_data)
         session.add(pet)
         session.commit()
+        session.close()
 
     @classmethod
     def tearDownClass(cls) -> None:

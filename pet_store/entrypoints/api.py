@@ -2,9 +2,9 @@ from uuid import UUID
 
 from fastapi import FastAPI
 
-from pet_store.command.service_layer import services
-from pet_store.command.service_layer.services import PetDTO, PetsPageDTO
 from pet_store.infrastructure.bootstrap import bootstrap
+from pet_store.service_layer import queries
+from pet_store.service_layer.queries import PetsPageDTO, PetDTO
 
 app = FastAPI()
 
@@ -19,7 +19,7 @@ def get_pets(limit: int = 10, offset: int = 0) -> PetsPageDTO:
 
     :return:
     """
-    response = services.get_pets(limit, offset)
+    response = queries.get_pets(limit, offset)
     return response
 
 
@@ -31,7 +31,7 @@ def get_pet(pet_id: UUID) -> PetDTO:
     :param pet_id:
     :return:
     """
-    return services.get_pet(pet_id)
+    return queries.get_pet(pet_id)
 
 
 @app.get("/healthy")

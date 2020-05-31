@@ -1,5 +1,5 @@
-# py-ddd-microservice-boilerplate
-A boilerplate for a Domain Driven Design(ed) Microservice in Python
+# py-ddd-cqrs-microservice-boilerplate
+A boilerplate for a Domain Driven Design(ed), CQRS based, Microservice in Python
 
 
 ## Installation
