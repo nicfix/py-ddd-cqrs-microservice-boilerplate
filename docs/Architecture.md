@@ -1,4 +1,3 @@
-[architecture.layers]: architecture.layers.jpg "architecture.layers Architecture Layers"
 # Architecture
 
 This application follows the architecture suggested in 
@@ -20,10 +19,8 @@ to check how this architecture relates to the ones I mentioned before.
 This project includes a folder of [Architecture Decision Records](https://adr.github.io/),
 check it out [here](adr/ADRs.md).
 
-## Layers
-![Architecture Layers][architecture.layers]
-
-The responsibilities in this API can be assigned to layers:
+## Modules
+The responsibilities in this API can be assigned to modules:
 * Domain (`domain` module)
 * Adapters (`adapters` module)
 * Service Layer (`service_layer` module)
@@ -31,14 +28,14 @@ The responsibilities in this API can be assigned to layers:
 
 
 ### Domain
-This layer implements the Ubiquitous Language specific to our Domain.
+This module implements the Ubiquitous Language specific to our Domain.
 In this module are included only Pure python classes and functions that aim to have
 no infrastructure dependencies (frameworks, persistence, data transfer etc).
 
-This layer has to remain portable to any other python project and testable as 
+This module has to remain portable to any other python project and testable as 
 a unit.
 
-The layer is further divided in 2 modules:
+The module is further divided in 2 modules:
 * `models`, including the classes that implement DDD's Entities and ValueObjects
 * `service_functions`, including the functional implementation of Domain relative operations.
 
@@ -51,7 +48,7 @@ Best quote:
 Please check the [Domain](../domain/docs/README.md) documentation page for more details. 
 
 
-# Adapters
+### Adapters
 The Adapters implement the "adaptation" to the foundation/backing services.
 As a pattern they implement the following:
 * An interface that has to be used by all the clients, unaware of technological details
@@ -60,18 +57,18 @@ As a pattern they implement the following:
 The goal is to provide an easy to swap set of adaptation objects to protect
 the code from changes in technological choices.
  
-The Adapters layer includes the Repository classes. 
+The Adapters module includes the Repository classes. 
 A Repository is a simplifying abstraction over data storage, 
-allowing us to decouple our model layer from the data layer.
+allowing us to decouple our model module from the data module.
 
-The repositories in this layer are implemented using the Adapter pattern.
+The repositories in this module are implemented using the Adapter pattern.
 
 Please check the paragraph "Repository Pattern" from the
 [Cosmic Python's 2nd chapter](https://www.cosmicpython.com/book/chapter_02_repository.html)
 
 
 
-# Service Layer
+### Service Layer
 The Service Layer uses the Adapters and the Domain to implement services used outside.
 The Services functions/classes implement a contract with external clients. Potentially only
 tests against the ServiceLayer surface (interface) should be granted since the internal implementation
@@ -83,23 +80,23 @@ Their interface should never expose domain objects outside and should not accept
 Their interface should allow the injection of Repositories using the Dependency Inversion principle (SOLID).
 
 For this reason all the services implemented in this project accept/expose DTOs (Data Transfer Objects) that
-are not the domain objects, the structure of these objects is part of the "contract" of the service layer.
+are not the domain objects, the structure of these objects is part of the "contract" of the service module.
 
 
-# Entrypoints
+### Entrypoints
 
 > Entrypoints are the places we drive our application from. In the official ports and adapters terminology, 
 > these are adapters too, and are referred to as primary, driving, or outward-facing adapters.
 
-The Entrypoints is the layer (and the only one) that is dependent from technological choices related
+The Entrypoints is the module (and the only one) that is dependent from technological choices related
 to the web technology one might want to choose.
 In a well implemented DDD architecture, all the technological choices are taken in the adapters/entrypoints
-layers.
+modules.
 
-Some technologies might be used in the service layer to facilitate serialization/deserialization and
+Some technologies might be used in the service module to facilitate serialization/deserialization and
 validation (pydantinc to implement the DTOs in our case).
 
-No technological dependencies are added to the domain layer. Pure classes/functions implemented
+No technological dependencies are added to the domain module. Pure classes/functions implemented
 using language functionalities as much as possible
 
 In this project we provide one entrypoint in the form of a web application server implemented 

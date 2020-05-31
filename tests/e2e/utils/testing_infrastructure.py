@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, orm
 from sqlalchemy.orm import sessionmaker
 
 from pet_store.adapters.sql_alchemy.orm import create_tables, drop_tables
-from pet_store.service_layer.unit_of_work import AbstractUnitOfWork, UnitOfWork
+from pet_store.services.unit_of_work import AbstractUnitOfWork, UnitOfWork
 
 SQLITE_FILE_PATH = "./testing_sql_app.db"
 

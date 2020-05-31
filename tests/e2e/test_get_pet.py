@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 
 from pet_store.domain import models
 from pet_store.entrypoints.api import app
-from pet_store.service_layer.unit_of_work import uow_provider
+from pet_store.services.unit_of_work import uow_provider
 from tests.e2e.utils.testing_infrastructure import (
     get_session,
     destroy_testing_db,

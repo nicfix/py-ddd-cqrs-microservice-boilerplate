@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic.main import BaseModel
 
-from pet_store.service_layer.unit_of_work import uow_provider
+from pet_store.services.unit_of_work import uow_provider
 
 
 class PetDTO(BaseModel):

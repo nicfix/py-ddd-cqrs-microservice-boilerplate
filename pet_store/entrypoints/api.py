@@ -3,8 +3,8 @@ from uuid import UUID
 from fastapi import FastAPI
 
 from pet_store.infrastructure.bootstrap import bootstrap
-from pet_store.service_layer import queries
-from pet_store.service_layer.queries import PetsPageDTO, PetDTO
+from pet_store.services import queries
+from pet_store.services.queries import PetsPageDTO, PetDTO
 
 app = FastAPI()
 
