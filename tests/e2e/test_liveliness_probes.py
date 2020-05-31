@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from fastapi.testclient import TestClient
 
-from cookiecutter_project_name.entrypoints.api import app
+from pet_store.entrypoints.api import app
 
 
 class HealthyTestCase(TestCase):

@@ -1,15 +1,19 @@
 import uuid
 from unittest import TestCase
 
-from cookiecutter_project_name.command.domain.models import Pet
+from dependency_injector import providers
+
+from pet_store.domain.models import Pet
 from tests.unit.mocks import MockRepository
+
+repo_factory = providers.Factory(MockRepository)
 
 
 class PetModelTestCase(TestCase):
     def setUp(self) -> None:
         self.pet_id = uuid.uuid4()
         self.pet = Pet(id=self.pet_id, name="Pimienta", age=1)
-        self.repo = MockRepository([self.pet])
+        self.repo = repo_factory([self.pet])
 
     def test_get_pet(self) -> None:
         pet = self.repo.get_by_id(self.pet_id)

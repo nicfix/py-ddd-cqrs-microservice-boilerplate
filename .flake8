@@ -2,7 +2,6 @@
 max-line-length=120
 max-complexity=6
 inline-quotes=double
-
 exclude=tests, venv
-
-ignore=C812,C813,D104,D100,D204,A002,A003,D400,D401
+ignore=E203,E266,E501,W503,F403,F401,C812,C813,D104,D100,D204,A002,A003,D400,D401
+select = B,C,E,F,W,T4,B9
