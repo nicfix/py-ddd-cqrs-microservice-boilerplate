@@ -16,3 +16,5 @@ flake8-string-format
 pytest
 bandit
 prospector
+mypy
+coverage

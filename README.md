@@ -25,28 +25,14 @@ $ pre-commit install
 
 ## Tooling
 
-### Run tests
 ```bash
-$ pytest --cov-config=.coveragerc --cov=. batch_allocation/
+make help
 ```
-
-### Format code
-```bash
-$ black ./batch_allocation
-```
-
-### Linter
-```bash
-$ flake8 ./batch_allocation
-```
-
-
 
 ## Useful links:
 
 * http://michal.karzynski.pl/blog/2019/05/26/python-project-maturity-checklist/
 * http://cosmicpython.com
-
 
 
 ## Documentation
