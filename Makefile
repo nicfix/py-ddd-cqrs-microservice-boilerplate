@@ -1,4 +1,4 @@
-.PHONY: help requirements requirements-dev lint test run
+.PHONY: help requirements requirements-dev lint test run security licenses image
 
 APP := pet_store
 WORKON_HOME ?= .venv
@@ -25,7 +25,8 @@ requirements: venv
 	@echo Install requirements
 	@${PYTHON} -m pip install -r requirements.txt > /dev/null
 
-requirements-dev:	## install dev requirements
+requirements-dev:   ## install dev requirements
+requirements-dev: venv
 	@echo Install dev requirements
 	@${PYTHON} -m pip install -r requirements-dev.txt
 
@@ -40,8 +41,18 @@ lint:	## run pycodestyle
 lint: requirements-dev
 	@echo Running linter
 	@${PYTHON} -m pycodestyle .
-	@${PYTHON} -m flake8 ${APP} tests
+	@${PYTHON} -m flake8 ${APP}
 	@${PYTHON} -m mypy --ignore-missing-imports ${APP} tests
+
+security:	## run bandit
+security: requirements-dev
+	@echo Running security checks
+	@${PYTHON} -m bandit ${APP}
+
+licenses:   ## run pip-licenses
+licenses: requirements-dev
+	@echo Running pip-licenses
+	@pip-licenses --summary --from=classifier --with-system --order=count
 
 test:	## run tests and show report
 test: lint
@@ -51,7 +62,7 @@ test: lint
 
 run:	## run project
 run: requirements
-	@${PYTHON} -m ${APP}
+	@${PYTHON} -m uvicorn ${APP}.entrypoints.api:app
 
 image:	## build docker image
 image:
