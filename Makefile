@@ -26,7 +26,6 @@ requirements: venv
 	@${PYTHON} -m pip install -r requirements.txt > /dev/null
 
 requirements-dev:	## install dev requirements
-requirements-dev: requirements
 	@echo Install dev requirements
 	@${PYTHON} -m pip install -r requirements-dev.txt
 
