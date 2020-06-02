@@ -34,7 +34,3 @@ jobs:
         uses: jpetrucciani/bandit-check@1.6.2
         with:
           path: './pet_store/'
-
-      - name: Bandit check
-        run: |
-          python -m bandit pet_store
