@@ -60,6 +60,10 @@ test: lint
 	@LOG_LEVEL=DEBUG ${PYTHON} -m coverage run -m pytest tests
 	@${PYTHON} -m coverage report -m
 
+watch:	## run project in live reload
+watch: requirements
+	@${PYTHON} -m uvicorn ${APP}.entrypoints.api:app --reload
+
 run:	## run project
 run: requirements
 	@${PYTHON} -m uvicorn ${APP}.entrypoints.api:app
