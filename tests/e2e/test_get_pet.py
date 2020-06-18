@@ -27,7 +27,7 @@ class PetTestCase(TestCase):
         # This has to happen in Alembic
         create_testing_db()
         session = get_session()
-        pet = models.Pet(**pet_data)
+        pet = models.Pet(**pet_data)  # type: ignore
         session.add(pet)
         session.commit()
         session.close()
