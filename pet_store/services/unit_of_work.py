@@ -41,7 +41,8 @@ class UnitOfWork(AbstractUnitOfWork):
     """An implementation of Unit of Work using context managers and postgres/mongodb repositories."""
 
     def __init__(
-        self, session_factory: Callable = DEFAULT_REPOSITORY_FACTORY,
+        self,
+        session_factory: Callable = DEFAULT_REPOSITORY_FACTORY,
     ):
         self.sql_alchemy_session_factory = session_factory
 
