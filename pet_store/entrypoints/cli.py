@@ -43,7 +43,6 @@ class CLI(object):
         """
         uvicorn.run(
             "pet_store.entrypoints.api:app",
-            host="0.0.0.0",
             port=8081,
             log_level="debug",
             reload=True,
