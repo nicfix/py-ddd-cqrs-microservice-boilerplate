@@ -43,7 +43,8 @@ class PetTestCase(TestCase):
         self.assertEqual(200, response.status_code)
         response_data = response.json()
         self.assertEqual(
-            response_data.get("pets", [])[0], pet_data,
+            response_data.get("pets", [])[0],
+            pet_data,
         )
 
     def test_get_pet(self):
@@ -52,5 +53,6 @@ class PetTestCase(TestCase):
         response = client.get(f"/pets/{pre_populated_pet_id}")
         self.assertEqual(200, response.status_code)
         self.assertEqual(
-            response.json(), pet_data,
+            response.json(),
+            pet_data,
         )

@@ -1,6 +1,7 @@
 # Please pinpoint your dependencies versions when you start the project
-fastapi
-pydantic
-uvicorn
-sqlalchemy
+fastapi~=0.63.0
+pydantic~=1.8.1
+uvicorn~=0.13.4
+sqlalchemy~=1.4.3
 dependency-injector
+invoke~=1.5.0
