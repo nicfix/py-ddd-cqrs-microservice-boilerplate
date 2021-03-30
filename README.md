@@ -17,16 +17,24 @@ $ pip install -r requirements.txt
 ### Development
 ```
 # Install the necessary dev commands
-$ pip install -r requirements-dev.txt
-
-# Install the pre-commit hooks, check .pre-commit-config.yaml
-$ pre-commit install
+$ python run.py dev_setup
 ```
 
-## Tooling
-
+## Start development server
 ```bash
-make help
+$ python run.py watch
+```
+
+## Run tests
+```bash
+$ python run.py test
+```
+
+
+## Other commands
+Check out the help manual
+```bash
+$ python run.py --help
 ```
 
 ## Useful links:
