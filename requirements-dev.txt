@@ -1,5 +1,6 @@
 -r requirements.txt
 # Please pinpoint your dependencies versions when you start the project
+fire
 requests
 black
 pre-commit
