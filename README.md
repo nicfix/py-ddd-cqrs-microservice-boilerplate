@@ -1,6 +1,6 @@
 # py-ddd-cqrs-microservice-boilerplate
 
-[![Actions Status](https://github.com/nicfix/py-ddd-cqrs-microservice-boilerplate/workflows/qualityChecks/badge.svg)](https://github.com/nicfix/py-ddd-cqrs-microservice-boilerplate/actions)
+[![API Quality](https://github.com/nicfix/py-ddd-cqrs-microservice-boilerplate/actions/workflows/qualityChecks.yml/badge.svg)](https://github.com/nicfix/py-ddd-cqrs-microservice-boilerplate/actions/workflows/qualityChecks.yml)
 
 A boilerplate for a Domain Driven Design(ed), CQRS based, Microservice in Python
 
