@@ -1,0 +1,51 @@
+name: API Quality
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.8 ]
+
+    env:
+      WORKING_DIR: api
+
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Lint (Flake8)
+        run: |
+          python run.py lint
+
+      - name: Test with pytest
+        run: |
+          python run.py test
+
+      - name: Calculate Coverage
+        run: |
+          python run.py test_coverage
+
+      - name: Check Vulnerabilities
+        run: |
+          python run.py check_vulnerabilities
+
+      - name: Check Dependencies Vulnerabilities
+        run: |
+          python run.py check_dependencies_vulnerabilities

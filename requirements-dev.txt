@@ -19,3 +19,4 @@ bandit
 prospector
 mypy
 coverage
+safety==1.10.3
