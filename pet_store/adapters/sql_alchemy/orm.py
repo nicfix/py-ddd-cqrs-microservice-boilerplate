@@ -1,3 +1,6 @@
+import uuid
+
+from pet_store.adapters.sql_alchemy.BinaryUUID import BinaryUUID
 from pet_store.domain import models
 from sqlalchemy import Column, Integer, MetaData, String, Table, orm
 
@@ -6,7 +9,7 @@ metadata = MetaData()
 pets = Table(
     "pets",
     metadata,
-    Column("id", String(255), primary_key=True),
+    Column("id", BinaryUUID(255), primary_key=True, default=uuid.uuid4),
     Column("name", String(255)),
     Column("age", Integer, nullable=False),
 )

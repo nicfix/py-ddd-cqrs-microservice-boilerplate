@@ -43,7 +43,8 @@ class CLI(object):
         """
         uvicorn.run(
             "pet_store.entrypoints.api:app",
-            port=8081,
+            port=8000,
+            host="0.0.0.0", #nosec
             log_level="debug",
             reload=True,
         )
@@ -74,6 +75,14 @@ class CLI(object):
         """
         invoke.run("pip install -r requirements-dev.txt")
         invoke.run("bandit -r pet_store")
+
+    def migrate_database(self):
+        invoke.run("pip install -r requirements-dev.txt")
+        invoke.run("alembic upgrade head")
+
+    def autogenerate_migrations(self, comment: str):
+        invoke.run("pip install -r requirements-dev.txt")
+        invoke.run(f'alembic revision --autogenerate -m "{comment}"')
 
 
 cli = CLI()

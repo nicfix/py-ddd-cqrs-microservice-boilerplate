@@ -1,26 +1,7 @@
-from typing import List
 from uuid import UUID
 
-from pydantic.main import BaseModel
-
+from pet_store.services.dtos import PetDTO, PetsPageDTO
 from pet_store.services.unit_of_work import uow_provider
-
-
-class PetDTO(BaseModel):
-    """The Data Transfer object for a pet."""
-
-    id: str
-    name: str
-    age: int
-
-
-class PetsPageDTO(BaseModel):
-    """The Data Transfer Object for a page of pets."""
-
-    pets: List[PetDTO]
-    total: int
-    limit: int
-    offset: int
 
 
 def get_pets(limit: int = 10, offset: int = 0) -> PetsPageDTO:
