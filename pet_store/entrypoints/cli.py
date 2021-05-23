@@ -44,7 +44,7 @@ class CLI(object):
         uvicorn.run(
             "pet_store.entrypoints.api:app",
             port=8000,
-            host="0.0.0.0", #nosec
+            host="0.0.0.0",  # nosec
             log_level="debug",
             reload=True,
         )
