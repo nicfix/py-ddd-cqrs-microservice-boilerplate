@@ -3,4 +3,5 @@ fastapi
 pydantic
 uvicorn
 sqlalchemy
+dependency-injector
 invoke
