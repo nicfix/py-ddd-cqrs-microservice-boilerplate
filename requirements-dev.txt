@@ -19,5 +19,6 @@ bandit
 prospector
 mypy
 coverage
-safety==1.10.3
-alembic==1.6.2
+safety
+alembic
+invoke

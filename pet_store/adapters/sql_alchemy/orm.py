@@ -1,8 +1,11 @@
+import logging
 import uuid
+
+from sqlalchemy import Column, Integer, MetaData, String, Table, orm
+from sqlalchemy.exc import ArgumentError
 
 from pet_store.adapters.sql_alchemy.BinaryUUID import BinaryUUID
 from pet_store.domain import models
-from sqlalchemy import Column, Integer, MetaData, String, Table, orm
 
 metadata = MetaData()
 
@@ -25,21 +28,12 @@ def start_mappers():
     return [pets_mapper]
 
 
-def create_tables(engine):
-    """
-    Create the tables in the database!
-
-    :param engine:
-    :return:
-    """
-    metadata.create_all(engine)
+def auto_start_mappers():
+    try:
+        start_mappers()
+        logging.debug("Mappers initialized")
+    except ArgumentError:
+        logging.debug("Mappers already initialized")
 
 
-def drop_tables(engine):
-    """
-    Drop the tables in the database!
-
-    :param engine:
-    :return:
-    """
-    metadata.drop_all(engine)
+auto_start_mappers()

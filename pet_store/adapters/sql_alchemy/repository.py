@@ -2,8 +2,9 @@ from typing import Iterable
 from uuid import UUID
 
 from sqlalchemy import orm
+from sqlalchemy.exc import NoResultFound
 
-from pet_store.adapters.repository import Repository
+from pet_store.adapters.repository import Repository, NoPetFoundError
 from pet_store.domain.models import Pet
 
 
@@ -43,7 +44,10 @@ class SQLAlchemyRepository(Repository):
         :param pet_id: the pet's identifier
         :return: the pet
         """
-        return self.session.query(Pet).filter_by(id=str(pet_id)).one()
+        try:
+            return self.session.query(Pet).filter_by(id=str(pet_id)).one()
+        except NoResultFound as e:
+            raise NoPetFoundError() from e
 
     def add(self, pet: Pet) -> UUID:
         """

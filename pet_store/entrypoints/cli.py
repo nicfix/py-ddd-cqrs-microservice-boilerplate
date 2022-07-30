@@ -42,7 +42,7 @@ class CLI(object):
         USE ONLY IN DEVELOPMENT.
         """
         uvicorn.run(
-            "pet_store.entrypoints.api:app",
+            "pet_store.main:app",
             port=8000,
             host="0.0.0.0",  # nosec
             log_level="debug",
