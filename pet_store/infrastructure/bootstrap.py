@@ -1,4 +1,4 @@
-from pet_store.adapters.sql_alchemy.orm import start_mappers
+from pet_store.adapters.sql_alchemy.orm import auto_start_mappers
 
 
 def bootstrap():
@@ -9,4 +9,4 @@ def bootstrap():
     """
 
     # Initialize the ORM
-    start_mappers()
+    auto_start_mappers()

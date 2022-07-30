@@ -1,10 +1,10 @@
-from starlette.testclient import TestClient
+from fastapi.testclient import TestClient
 
 from pet_store.entrypoints.api import app
-from tests.e2e.utils.e2e_test_case import E2ETestCase
+from tests.integration.utils.local_db_test_case import LocalDBTestCase
 
 
-class PetTestCase(E2ETestCase):
+class PetTestCase(LocalDBTestCase):
 
     def test_add_pet(self):
         client = TestClient(app)

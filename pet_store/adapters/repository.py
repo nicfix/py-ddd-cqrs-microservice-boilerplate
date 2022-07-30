@@ -5,6 +5,10 @@ from uuid import UUID
 from pet_store.domain.models import Pet
 
 
+class NoPetFoundError(Exception):
+    pass
+
+
 class Repository(abc.ABC):
     """The repository interface for the Pet aggregate"""
 
