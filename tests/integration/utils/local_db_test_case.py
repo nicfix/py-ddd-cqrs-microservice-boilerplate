@@ -1,19 +1,13 @@
 from unittest import TestCase
 
-from dependency_injector import providers
-
 from pet_store.adapters.sql_alchemy.orm import auto_start_mappers
-from pet_store.services.unit_of_work import uow_provider
+from pet_store.entrypoints.api import build_app
+from pet_store.adapters.sql_alchemy.unit_of_work import SQLAlchemyUnitOfWork
 from tests.integration.utils.testing_infrastructure import (
     get_session,
     destroy_testing_db,
     create_testing_db,
-    uow_factory,
 )
-
-# TODO: Remove together with dependency_injector
-# Changing the UnitOfWorkFactory using the dependency_injector library
-uow_provider.override(providers.Callable(uow_factory))
 
 
 class LocalDBTestCase(TestCase):
@@ -29,3 +23,5 @@ class LocalDBTestCase(TestCase):
 
     def setUp(self) -> None:
         self.session = get_session()
+        self.uow = SQLAlchemyUnitOfWork(get_session)
+        self.app = build_app(uow=self.uow)

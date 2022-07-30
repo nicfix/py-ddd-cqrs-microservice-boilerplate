@@ -1,13 +1,12 @@
 from fastapi.testclient import TestClient
 
-from pet_store.entrypoints.api import app
 from tests.integration.utils.local_db_test_case import LocalDBTestCase
 
 
 class PetTestCase(LocalDBTestCase):
 
     def test_add_pet(self):
-        client = TestClient(app)
+        client = TestClient(self.app)
 
         body = {
             'age': 12,

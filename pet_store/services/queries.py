@@ -2,15 +2,15 @@ from uuid import UUID
 
 from pet_store.adapters import repository
 from pet_store.services.dtos import PetDTO, PetsPageDTO
-from pet_store.services.unit_of_work import AbstractUnitOfWork
+from pet_store.adapters.unit_of_work import UnitOfWork
 
 
-def get_pets(uow: AbstractUnitOfWork, limit: int = 10, offset: int = 0) -> PetsPageDTO:
+def get_pets(uow: UnitOfWork, limit: int = 10, offset: int = 0) -> PetsPageDTO:
     """
     Get a paginated list of pets.
 
     :param uow: the unit of work for this transaction
-    :type uow: AbstractUnitOfWork
+    :type uow: UnitOfWork
     :param limit: how many pets per page
     :type limit: int
     :param offset: how many pets you've already downloaded
@@ -35,13 +35,13 @@ class NoPetFoundError(Exception):
     pass
 
 
-def get_pet(pet_id: UUID, uow: AbstractUnitOfWork) -> PetDTO:
+def get_pet(pet_id: UUID, uow: UnitOfWork) -> PetDTO:
     """
     Get a pet by id.
     :param pet_id: the unique id of an existing pet
     :type pet_id: UUID
     :param uow: the unit of work for this transaction
-    :type uow: AbstractUnitOfWork
+    :type uow: UnitOfWork
     :return: a data transferable representation of the pet
     :rtype: PetDTO
     :raises NoPetFound: when no pet is found for the requested id.

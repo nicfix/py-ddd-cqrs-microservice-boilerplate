@@ -9,4 +9,4 @@ def bootstrap():
     """
 
     # Initialize the ORM
-    auto_start_mappers()
+    # auto_start_mappers()

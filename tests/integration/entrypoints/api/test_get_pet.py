@@ -3,7 +3,6 @@ import uuid
 from fastapi.testclient import TestClient
 
 from pet_store.domain import models
-from pet_store.entrypoints.api import app
 from tests.integration.utils.local_db_test_case import LocalDBTestCase
 from tests.integration.utils.testing_infrastructure import (
     get_session,
@@ -25,7 +24,7 @@ class PetTestCase(LocalDBTestCase):
         session.close()
 
     def test_get_pets(self):
-        client = TestClient(app)
+        client = TestClient(self.app)
 
         response = client.get("/pets")
         self.assertEqual(200, response.status_code)
@@ -36,7 +35,7 @@ class PetTestCase(LocalDBTestCase):
         )
 
     def test_get_pet(self):
-        client = TestClient(app)
+        client = TestClient(self.app)
 
         response = client.get(f"/pets/{pre_populated_pet_id}")
         self.assertEqual(200, response.status_code)
@@ -46,7 +45,7 @@ class PetTestCase(LocalDBTestCase):
         )
 
     def test_get_pet_not_found(self):
-        client = TestClient(app)
+        client = TestClient(self.app)
 
         response = client.get(f"/pets/{uuid.uuid4()}")
         self.assertEqual(404, response.status_code)

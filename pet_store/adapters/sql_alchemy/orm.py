@@ -36,21 +36,4 @@ def auto_start_mappers():
         logging.debug("Mappers already initialized")
 
 
-def create_tables(engine):
-    """
-    Create the tables in the database!
-
-    :param engine:
-    :return:
-    """
-    metadata.create_all(engine)
-
-
-def drop_tables(engine):
-    """
-    Drop the tables in the database!
-
-    :param engine:
-    :return:
-    """
-    metadata.drop_all(engine)
+auto_start_mappers()

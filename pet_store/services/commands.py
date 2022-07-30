@@ -2,9 +2,9 @@ import uuid
 
 from pydantic import BaseModel
 
+from pet_store.adapters.unit_of_work import UnitOfWork
 from pet_store.domain.models import Pet
 from pet_store.services.dtos import PetDTO
-from pet_store.services.unit_of_work import AbstractUnitOfWork
 
 
 class AddPetCommand(BaseModel):
@@ -12,17 +12,14 @@ class AddPetCommand(BaseModel):
     age: int
 
 
-def add_pet(
-        dto: AddPetCommand,
-        uow: AbstractUnitOfWork
-) -> PetDTO:
+def add_pet(dto: AddPetCommand, uow: UnitOfWork) -> PetDTO:
     """
     Adds a pet to the system.
 
     :param dto: the data needed to execute this command
     :type dto: AddPetCommand
     :param uow: the unit of work for this transaction
-    :type uow: AbstractUnitOfWork
+    :type uow: UnitOfWork
     :return: a data transferable representation of the Pet
     :rtype: PetDTO
     """
