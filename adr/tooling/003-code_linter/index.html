@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Use an automated code linter - Py DDD CQRS Microservice Boilerplate</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Use an automated code linter";
+        var mkdocs_page_input_path = "adr/tooling/003-code_linter.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Py DDD CQRS Microservice Boilerplate
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Architecture/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Responsibilities/">Responsibilities</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Design Decisions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../ADRs/">ADRs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Technologies</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../technologies/000-FastAPI/">Fast API</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../technologies/001-Pydantic/">Pydantic</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Practices</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/000-Readiness%20probe/">Readiness Probe</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/001-Dependency%20inversion/">Dependency Inversion</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/002-Domain%20Specific%20Exceptions/">Domain Specific Exceptions</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Py DDD CQRS Microservice Boilerplate</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Use an automated code linter</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="use-an-automated-code-linter">Use an automated code linter</h1>
+<h2 id="status">Status</h2>
+<p>accepted</p>
+<h2 id="context">Context</h2>
+<p>When joining a new team, people coming from different environments might be
+used to different styles in writing code. 
+This might seem trivial and also irrelevant but it actually affects a lot 
+the productivity of a team in at least two ways:
+1. A developer might write the code in its own style
+2. A developer might discuss the code style of another developer  </p>
+<p>Furthermore, some practices might be considered good in one team while being
+considered bad in another team.</p>
+<p>This creates an awkward situation in which some developers try to correct these bad
+practices in PRs without really succeding but increasing the level of frustration of 
+their colleagues.</p>
+<h2 id="decision">Decision</h2>
+<p>Proceed as follows:
+* define a set of rules that are considered good or bad practices,
+* discuss and agree on the minimum amount of rules at team level, 
+* let an automatic linter block every commit in a pre-commit hook</p>
+<p>Use <code>flake8</code>: https://flake8.pycqa.org/ for python.</p>
+<h2 id="consequences">Consequences</h2>
+<p>The linter will act as a cold rules checker,
+no more developers and hard feelings in enforcing the rules.
+At the same time, running it at a pre-commit-hook will make sure
+that code that is not compliant will not reach the repo at all.</p>
+<h1 id="references">References</h1>
+<ul>
+<li>https://adr.github.io/</li>
+<li>https://github.com/joelparkerhenderson/architecture_decision_record</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

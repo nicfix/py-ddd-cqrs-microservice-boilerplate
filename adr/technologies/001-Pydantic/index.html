@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Pydantic - Py DDD CQRS Microservice Boilerplate</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Pydantic";
+        var mkdocs_page_input_path = "adr/technologies/001-Pydantic.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Py DDD CQRS Microservice Boilerplate
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Architecture/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Responsibilities/">Responsibilities</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Design Decisions</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../ADRs/">ADRs</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Technologies</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../000-FastAPI/">Fast API</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Pydantic</a>
+    <ul class="current">
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Practices</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/000-Readiness%20probe/">Readiness Probe</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/001-Dependency%20inversion/">Dependency Inversion</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/002-Domain%20Specific%20Exceptions/">Domain Specific Exceptions</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Py DDD CQRS Microservice Boilerplate</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Design Decisions &raquo;</li>
+          <li>Technologies &raquo;</li>
+      <li>Pydantic</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="pydantic-for-data-transfer-objects-validation-and-serialization">Pydantic for Data Transfer Objects, Validation and Serialization</h1>
+<h1 id="status">Status</h1>
+<p>approved</p>
+<h1 id="context">Context</h1>
+<p>Python is a dynamically typed language that has an extremely powerful data structure, the dictionary (a.k.a. <code>dict</code>).
+Whereas the <code>dict</code> is a good choice for many scenarios I think that its usage was abused throughout the 
+python projects I encountered in my career.</p>
+<p>In many cases, data received from a http endpoint through parameters or POST body is represented
+in the code as a dict. The same can be said for data returned from a Rest API that adopts the
+JSON format as response. </p>
+<p>The simplicity of creating new dicts with literals often wins against the creation and the initialization
+of a dedicated class.</p>
+<p>This though brings, after some time, to problems related to the validation and the documentation
+of what a <code>dict</code> instance contains throughout the code, problem that gets even worse when passing
+the same dictionary throughout a deep stack of function calls.</p>
+<h1 id="solution">Solution</h1>
+<p>Use <code>pydantic</code> to represent data objects and validate your data.</p>
+<p>Pydantic leverages on the combined power of:
+* Python 3's type annotations
+* <code>dataclasses</code> automatic constructors
+* A validation framework based on reflection, that can be extended further using <code>@decorators</code></p>
+<h1 id="consequences">Consequences</h1>
+<p>For each endpoint that you define:
+* Define an input data type using the <code>pydantic.BaseModel</code> class
+* Define the output data type using the <code>pydantic.Basemodel</code> class</p>
+<p>Example  </p>
+<pre><code class="language-python">import json
+from typing import Optional
+from pydantic import BaseModel
+
+class MyEndpointInputDTO(BaseModel):
+    my_resource_filter_id: str
+    limit: Optional[int]=0
+    offset: Optional[int]=0
+
+
+class MyEndpointResourceDTO(BaseModel):
+    id:str
+    name:str
+    age:int
+
+def my_get_endpoint(params:dict) -&gt; dict:
+
+    input_data =MyEndpointInputDTO(**params)
+
+    # ... do whatever ...
+
+    my_resources = inner_function()
+
+    return json.dumps([resource.dict() for resource in my_resources])
+</code></pre>
+<p>As you can see the code results really clean in the happy path.
+Now if we want to handle the validation of the input parameters we just need to handle
+and exception from <code>pydantic</code>.</p>
+<pre><code class="language-python">
+def my_get_endpoint(params:dict) -&gt; dict:
+    try:
+        input_data=MyEndpointInputDTO(**params)
+    except ValidationError as e:
+        return BadRequestResponse(e.json())
+    # ... do whatever ...
+
+    my_resources= inner_function()
+
+    return json.dumps([resource.json() for resource in my_resources])
+</code></pre>
+<p>And this will return something like:</p>
+<pre><code class="language-json">[
+  {
+    &quot;loc&quot;: [
+      &quot;my_resource_filter_id&quot;
+    ],
+    &quot;msg&quot;: &quot;field required&quot;,
+    &quot;type&quot;: &quot;value_error.missing&quot;
+  },
+  {
+    &quot;loc&quot;: [
+      &quot;limit&quot;
+    ],
+    &quot;msg&quot;: &quot;invalid int format&quot;,
+    &quot;type&quot;: &quot;value_error.int&quot;
+  }
+]
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../000-FastAPI/" class="btn btn-neutral float-left" title="Fast API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../practices/000-Readiness%20probe/" class="btn btn-neutral float-right" title="Readiness Probe">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../000-FastAPI/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../practices/000-Readiness%20probe/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

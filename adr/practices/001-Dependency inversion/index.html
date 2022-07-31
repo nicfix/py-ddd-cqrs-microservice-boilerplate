@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Dependency Inversion - Py DDD CQRS Microservice Boilerplate</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Dependency Inversion";
+        var mkdocs_page_input_path = "adr/practices/001-Dependency inversion.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Py DDD CQRS Microservice Boilerplate
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Architecture/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Responsibilities/">Responsibilities</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Design Decisions</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../ADRs/">ADRs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Technologies</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../technologies/000-FastAPI/">Fast API</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../technologies/001-Pydantic/">Pydantic</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Practices</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../000-Readiness%20probe/">Readiness Probe</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Dependency Inversion</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#status">Status</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#context">Context</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#decision">Decision</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#consequences">Consequences</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../002-Domain%20Specific%20Exceptions/">Domain Specific Exceptions</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Py DDD CQRS Microservice Boilerplate</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Design Decisions &raquo;</li>
+          <li>Practices &raquo;</li>
+      <li>Dependency Inversion</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="use-dependency-inversion">Use Dependency Inversion</h1>
+<h2 id="status">Status</h2>
+<p>approved</p>
+<h2 id="context">Context</h2>
+<p>Implementing a rest api often involves integrating external services such as databases or caches.
+In some cases it's necessary to call other apis to fetch data.
+The external dependencies might make unit-testing challenging. In such cases the natural solution is to provide mocks
+that simulate the behavior of the external service even without calling it.</p>
+<p>There are several approaches to provide the mocks (and the real implementations) to the services, some of the most
+used are:</p>
+<ul>
+<li>Direct import and monkey patching</li>
+<li>Dependency injection</li>
+<li>Dependency inversion</li>
+</ul>
+<p>Monkey patching is an approach that I don't recommend, please check the <a href="../../../tests/tests.md">README.md</a> in the
+tests folder for more info on that.</p>
+<p>Dependency injection requires the use of some technology that provides the dependencies in a "transparent" way and can
+be customized so that during testing the mocks are passed instead of the real dependencies. However, sometimes these
+technologies can feel like "magic" and hide the way they pass the dependencies to the actual code.</p>
+<p>Dependency inversion is a design approach in which the dependencies are explicitly passed from who constructs or invokes
+the unit to run/test.</p>
+<h2 id="decision">Decision</h2>
+<p>I will use the dependency inversion approach, moving away to the previously used dependency injection approach.</p>
+<h2 id="consequences">Consequences</h2>
+<p>The <code>dependency-injector</code> package will be removed, the app will be built using a <code>build_app</code> function instead of being a
+module variable.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../000-Readiness%20probe/" class="btn btn-neutral float-left" title="Readiness Probe"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../002-Domain%20Specific%20Exceptions/" class="btn btn-neutral float-right" title="Domain Specific Exceptions">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../000-Readiness%20probe/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../002-Domain%20Specific%20Exceptions/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

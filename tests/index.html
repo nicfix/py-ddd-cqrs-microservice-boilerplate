@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Tests - Py DDD CQRS Microservice Boilerplate</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Tests";
+        var mkdocs_page_input_path = "tests.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Py DDD CQRS Microservice Boilerplate
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Architecture/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Responsibilities/">Responsibilities</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Design Decisions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../adr/ADRs/">ADRs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Technologies</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../adr/technologies/000-FastAPI/">Fast API</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../adr/technologies/001-Pydantic/">Pydantic</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Practices</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../adr/practices/000-Readiness%20probe/">Readiness Probe</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../adr/practices/001-Dependency%20inversion/">Dependency Inversion</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../adr/practices/002-Domain%20Specific%20Exceptions/">Domain Specific Exceptions</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Py DDD CQRS Microservice Boilerplate</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Tests</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="tests">Tests</h1>
+<h2 id="organization">Organization</h2>
+<p>The tests are organized in 3 groups:
+* E2E tests <code>tests.e2e</code>
+* Integration tests <code>tests.integration</code>
+* Unit tests <code>tests.unit</code></p>
+<h3 id="context">Context</h3>
+<p>Given the definition for the following as in the Cosmic Python book (see <a href="../docs/Architecture.md">Architecture</a>):
+* entrypoints  (Web Server, CLI Tool, Messaging Job)
+* adapters (Database, caching system, external service mock)</p>
+<p>We follow the guidelines of the <a href="https://www.cosmicpython.com/book/chapter_05_high_gear_low_gear.html#kinds_of_tests">Cosmic Python book</a>.</p>
+<h3 id="e2e-tests">E2E tests</h3>
+<p><strong>Definition</strong>: We define an e2e test as a test that executes code from all the "ends".
+In particular, requesting an operation from one entrypoint and reaching a concrete adapter.</p>
+<p>We aim to test the critical paths of the system looking at it as a black box.</p>
+<p>Example:</p>
+<p>Test --HTTP--&gt; Entrypoint (Webserver App) -- ... --&gt; Adapter (Repository) --&gt; Testing/Local Database</p>
+<h3 id="integration-tests">Integration tests</h3>
+<p><strong>Definition</strong>: We define an integration test a test that executes a unit integrated
+in the system. In particular, invoking a method of a unit which uses one of the adapters.</p>
+<p>Example: </p>
+<p>Test --Direct Invocation--&gt; Class method/function --...--&gt; Adapter (Repository) --&gt; Testing/Local Database</p>
+<h3 id="unit-tests">Unit tests</h3>
+<p><strong>Definition</strong>: We define a unit test a test test executes a unit mocking all the 
+other adapters (if needed).</p>
+<p>Example: </p>
+<p>Test --Direct Invocation--&gt; Class method/function --...--&gt; MockedAdapter (MockedRepository)</p>
+<h2 id="mocks-versus-fakes-classic-style-versus-london-school-tdd">Mocks Versus Fakes; Classic-Style Versus London-School TDD</h2>
+<p>In this project we prefer the Classic-Style: </p>
+<blockquote>
+<p>We like to build our tests around state both in setup and in assertions, 
+and we like to work at the highest level of abstraction possible rather 
+than doing checks on the behavior of intermediary collaborators.</p>
+</blockquote>
+<p>Quoting the <a href="https://www.cosmicpython.com/book/chapter_03_abstractions.html#_why_not_just_patch_it_out">Cosmic Python Book</a>:</p>
+<blockquote>
+<p>We avoid using <code>mocks</code> in this book and in our production code too. </p>
+<p>We’re not going to enter into a Holy War, but our instinct is that mocking frameworks, particularly monkeypatching, are a code smell.</p>
+<p>Instead, we like to clearly identify the responsibilities in our codebase, and to separate those responsibilities into small, 
+focused objectsrequirements that are easy to replace with a test double.</p>
+</blockquote>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

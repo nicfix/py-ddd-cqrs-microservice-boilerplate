@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Fast API - Py DDD CQRS Microservice Boilerplate</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Fast API";
+        var mkdocs_page_input_path = "adr/technologies/000-FastAPI.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Py DDD CQRS Microservice Boilerplate
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Architecture/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Responsibilities/">Responsibilities</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Design Decisions</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../ADRs/">ADRs</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Technologies</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Fast API</a>
+    <ul class="current">
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../001-Pydantic/">Pydantic</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Practices</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/000-Readiness%20probe/">Readiness Probe</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/001-Dependency%20inversion/">Dependency Inversion</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../practices/002-Domain%20Specific%20Exceptions/">Domain Specific Exceptions</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Py DDD CQRS Microservice Boilerplate</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Design Decisions &raquo;</li>
+          <li>Technologies &raquo;</li>
+      <li>Fast API</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="fast-api-as-rest-api-framework">Fast API as Rest API framework</h1>
+<h1 id="status">Status</h1>
+<p>approved</p>
+<h1 id="context">Context</h1>
+<p>Python provides several frameworks to develop RESTful APIs.
+All of them have their pro and cons and fit different scenarios.</p>
+<p>In this project we have the following functional requirements:
+* we want to build a REST API
+* we don't need templating or HTML rendering features
+* we need an OpenAPI specification exposed from the API
+* we need a validation framework for input data
+* we need a serialization framework for output data
+* <strong>OPT</strong> we need an automated mechanism to keep in sync the OpenAPI spec with
+the implementation</p>
+<p>In this project we have the following non-functional requirements:
+* we need a small memory consumption, in this way we can replicate
+the api in several containers
+* <strong>OPT</strong> we need support for asynchronous handling of HTTP requests,
+in this way we can reduce the number of replicas in high I/O bound 
+performance scenarios </p>
+<h1 id="solution">Solution</h1>
+<p>Use FastAPI as a REST framework.</p>
+<blockquote>
+<p>FastAPI is a modern, fast (high-performance), 
+web framework for building APIs with Python 3.6+ 
+based on standard Python type hints.
+- <a href="https://fastapi.tiangolo.com/">Pydantic Website</a></p>
+</blockquote>
+<p>It checks all the functional and non-functional requirements. </p>
+<p>Furthermore:
+* uses the python <code>typing</code> module to implement validation
+* supports the Pydantic Models to implement validation
+* supports the Pydantic Models to implement serialization
+* uses the pythondocs and the Pydantic models to automatically generate
+the OpenAPI specification and the Swagger-UI/Redoc sites. </p>
+<p>Is developed on top of Starlette which is developed from the creators
+of <code>django-rest-framework</code> and adds the support for a <code>typing</code> based
+web development leveraging on <code>pydantic</code> Models.</p>
+<h1 id="consequences">Consequences</h1>
+<p>FastAPI is based on the ASGI (Asynchronous Standard Gateway Interface).
+FastAPI provides an application object that can be used by any ASGI compatible
+webservers. An ASGI compatible webserver has to be choosen to run FastAPI apps.</p>
+<p>Another consequence of choosing FastAPI is the suggestion to use <code>pydantic</code> as 
+Data Transfer Objects framework so that the integration will be natural and will
+also generate documentation that will be up-to-date with the current implementation.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../ADRs/" class="btn btn-neutral float-left" title="ADRs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../001-Pydantic/" class="btn btn-neutral float-right" title="Pydantic">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../ADRs/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../001-Pydantic/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

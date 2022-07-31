@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Readiness Probe - Py DDD CQRS Microservice Boilerplate</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Readiness Probe";
+        var mkdocs_page_input_path = "adr/practices/000-Readiness probe.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Py DDD CQRS Microservice Boilerplate
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Architecture/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../Responsibilities/">Responsibilities</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Design Decisions</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../ADRs/">ADRs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Technologies</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../technologies/000-FastAPI/">Fast API</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../technologies/001-Pydantic/">Pydantic</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Practices</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Readiness Probe</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#status">Status</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#context">Context</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#decision">Decision</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#consequences">Consequences</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../001-Dependency%20inversion/">Dependency Inversion</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../002-Domain%20Specific%20Exceptions/">Domain Specific Exceptions</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Py DDD CQRS Microservice Boilerplate</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Design Decisions &raquo;</li>
+          <li>Practices &raquo;</li>
+      <li>Readiness Probe</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="implement-liveliness-readiness-and-startup-probes">Implement liveliness, readiness and startup probes</h1>
+<h2 id="status">Status</h2>
+<p>approved</p>
+<h2 id="context">Context</h2>
+<p>Cloud providers often rely on the usage of Orchestration systems
+over a containerization technology.</p>
+<p>The orchestration system needs to know at least 2 things about any service:</p>
+<ul>
+<li>If the service started correctly after a deployment</li>
+<li>If the service is still healthy at any moment in time</li>
+</ul>
+<h2 id="decision">Decision</h2>
+<p>When implementing an API that has to be deployed on the cloud,
+implement the following endpoints:</p>
+<ul>
+<li><code>/ready</code> an endpoint that returns a 200 - OK if the service is ready to
+  accept requests after a new deployment</li>
+<li><code>/health</code> an endpoint that returns a 200 - OK if the service is still alive
+  and functioning correctly</li>
+</ul>
+<h2 id="consequences">Consequences</h2>
+<p>Thanks to this 2 endpoints is possible to deterministically and automatically
+detect problems both after a new deployment and during the normal operation
+of the service directly into the orchestration service.</p>
+<p>Check out this page for more info regarding how <code>kubernetes</code> can be configured
+for
+this https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../technologies/001-Pydantic/" class="btn btn-neutral float-left" title="Pydantic"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../001-Dependency%20inversion/" class="btn btn-neutral float-right" title="Dependency Inversion">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../technologies/001-Pydantic/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../001-Dependency%20inversion/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
