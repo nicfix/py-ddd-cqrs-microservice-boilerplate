@@ -20,5 +20,4 @@ prospector
 mypy
 coverage
 safety
-alembic
 invoke

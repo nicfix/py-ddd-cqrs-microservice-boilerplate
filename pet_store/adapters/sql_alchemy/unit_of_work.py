@@ -1,7 +1,8 @@
-from typing import Callable
+from typing import Callable, Optional
+
+from sqlalchemy.orm import Session
 
 from pet_store.adapters.sql_alchemy.repository import SQLAlchemyRepository
-from pet_store.infrastructure.db import get_session
 from pet_store.adapters.unit_of_work import UnitOfWork
 
 
@@ -10,10 +11,10 @@ class SQLAlchemyUnitOfWork(UnitOfWork):
 
     def __init__(
         self,
-        session_factory: Callable = get_session,
+        session_factory: Callable[[], Session],
     ):
-        self.sql_alchemy_session_factory = session_factory
-        self.sql_alchemy_session = None
+        self.sql_alchemy_session_factory: Callable[[], Session] = session_factory
+        self.sql_alchemy_session: Optional[Session] = None
 
     def __enter__(self):
         """Initialize postgresql session and mongodb client, create the survey and reviews repositories."""

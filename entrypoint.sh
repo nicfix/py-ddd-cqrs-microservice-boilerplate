@@ -1,5 +1,4 @@
 #!/bin/bash
-# This is a development entry point, do not use it in production
-python run.py migrate_database
+alembic upgrade head
 
-uvicorn pet_store.main:app
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 pet_store.main:app

@@ -4,12 +4,11 @@ from uuid import UUID
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from pet_store.infrastructure.bootstrap import bootstrap
+from pet_store.adapters.unit_of_work import UnitOfWork
 from pet_store.services import queries, commands
 from pet_store.services.commands import AddPetCommand
 from pet_store.services.dtos import PetDTO, PetsPageDTO
 from pet_store.services.queries import NoPetFoundError
-from pet_store.adapters.unit_of_work import UnitOfWork
 
 
 def build_app(uow: UnitOfWork, origins: Optional[List[str]] = None):
@@ -23,9 +22,6 @@ def build_app(uow: UnitOfWork, origins: Optional[List[str]] = None):
         allow_headers=["*"],
         expose_headers=["Access-Control-Allow-Origin"],
     )
-
-    # Initialize infrastructure (SQLAlchemy mappings, session provider, etc)
-    bootstrap()
 
     @app.get("/pets", response_model=PetsPageDTO)
     def get_pets(limit: int = 10, offset: int = 0) -> PetsPageDTO:
