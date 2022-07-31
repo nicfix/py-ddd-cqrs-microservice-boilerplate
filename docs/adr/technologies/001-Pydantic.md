@@ -7,14 +7,14 @@ approved
 # Context
 
 Python is a dynamically typed language that has an extremely powerful data structure, the dictionary (a.k.a. `dict`).
-Whereas the `dict` is an good choice for many scenarios I think that its usage is abused throughout the 
+Whereas the `dict` is a good choice for many scenarios I think that its usage was abused throughout the 
 python projects I encountered in my career.
 
-In many cases, data received from an http endpoint through parameters or POST body is represented
-in the code as a dict. The same can be said for data returned from a RestAPI that adopts the
+In many cases, data received from a http endpoint through parameters or POST body is represented
+in the code as a dict. The same can be said for data returned from a Rest API that adopts the
 JSON format as response. 
 
-The simplicity of creating new dicts with literals often wins agains the creation and the initialization
+The simplicity of creating new dicts with literals often wins against the creation and the initialization
 of a dedicated class.
   
 This though brings, after some time, to problems related to the validation and the documentation

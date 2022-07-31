@@ -3,7 +3,7 @@ from typing import Callable, Optional
 from sqlalchemy.orm import Session
 
 from pet_store.adapters.sql_alchemy.repository import SQLAlchemyRepository
-from pet_store.adapters.unit_of_work import UnitOfWork
+from pet_store.services.unit_of_work import UnitOfWork
 
 
 class SQLAlchemyUnitOfWork(UnitOfWork):

@@ -2,7 +2,7 @@ import uuid
 
 from pydantic import BaseModel
 
-from pet_store.adapters.unit_of_work import UnitOfWork
+from pet_store.services.unit_of_work import UnitOfWork
 from pet_store.domain.models import Pet
 from pet_store.services.dtos import PetDTO
 

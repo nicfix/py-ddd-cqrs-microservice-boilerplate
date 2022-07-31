@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pet_store.adapters import repository
 from pet_store.services.dtos import PetDTO, PetsPageDTO
-from pet_store.adapters.unit_of_work import UnitOfWork
+from pet_store.services.unit_of_work import UnitOfWork
 
 
 def get_pets(uow: UnitOfWork, limit: int = 10, offset: int = 0) -> PetsPageDTO:

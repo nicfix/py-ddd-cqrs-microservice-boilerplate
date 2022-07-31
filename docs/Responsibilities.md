@@ -24,13 +24,13 @@ A special kind of event that represents a request for a modification on a domain
 #### Repository `adapters`
 Retrieves and stores aggregates from and to the persistence technology.
 
-#### Event Handlers `service_layer`
+#### Event Handlers `services`
 Handle one specific event as part of a single distinct unit of work.
 
-#### Unit of Work `service_layer`
+#### Unit of Work `services`
 Creates a session/consistency context for modification operations on domain aggregates.
 
-#### Message Bus `service_layer`
+#### Message Bus `services`
 Dispatches events to events handlers, collects new events and returns results
 
 #### Entry Point `entrypoints`

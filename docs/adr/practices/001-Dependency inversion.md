@@ -18,7 +18,7 @@ used are:
 * Dependency injection
 * Dependency inversion
 
-Monkey patching is an approach that I don't recommend, please check the [README.md](../../../tests/README.md) in the
+Monkey patching is an approach that I don't recommend, please check the [README.md](../../../tests/tests.md) in the
 tests folder for more info on that.
 
 Dependency injection requires the use of some technology that provides the dependencies in a "transparent" way and can

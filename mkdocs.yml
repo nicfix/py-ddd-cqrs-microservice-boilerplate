@@ -1,0 +1,14 @@
+site_name: Py DDD CQRS Microservice Boilerplate
+theme: readthedocs
+nav:
+  - Architecture: Architecture.md
+  - Responsibilities: Responsibilities.md
+  - Design Decisions:
+      - ADRs: adr/ADRs.md
+      - Technologies:
+          - Fast API: adr/technologies/000-FastAPI.md
+          - Pydantic: adr/technologies/001-Pydantic.md
+      - Practices:
+          - Readiness Probe: adr/practices/000-Readiness probe.md
+          - Dependency Inversion: adr/practices/001-Dependency inversion.md
+          - Domain Specific Exceptions: adr/practices/002-Domain Specific Exceptions.md

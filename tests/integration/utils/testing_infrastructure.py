@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 from pet_store.adapters.sql_alchemy.orm import metadata
 from pet_store.adapters.sql_alchemy.unit_of_work import SQLAlchemyUnitOfWork
-from pet_store.adapters.unit_of_work import UnitOfWork
+from pet_store.services.unit_of_work import UnitOfWork
 
 SQLITE_FILE_PATH = "./testing_sql_app.db"
 

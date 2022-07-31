@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from pet_store.adapters.unit_of_work import UnitOfWork
+from pet_store.services.unit_of_work import UnitOfWork
 from pet_store.services import queries, commands
 from pet_store.services.commands import AddPetCommand
 from pet_store.services.dtos import PetDTO, PetsPageDTO

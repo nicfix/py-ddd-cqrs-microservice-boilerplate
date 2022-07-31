@@ -51,4 +51,4 @@ $ python run.py --help
 Please refer to the following pages (included in each module):
 
 * [Architecture](./docs/Architecture.md)
-* [Testing](tests/README.md)
+* [Testing](tests/tests.md)
